@@ -5,7 +5,7 @@ from rabbit import RabbitConsumer
 
 
 def callback(message):
-    print(f" [x] Received: {message}")
+    print(f" [x] Received: {message.decode()}")
 
 
 # Create Rabbit instance and start consuming
