@@ -1,0 +1,4 @@
+git+ssh://git@github.com/openai/swarm.git
+pika
+ollama
+duckduckgo-search
