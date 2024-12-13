@@ -1,20 +1,15 @@
 import logging
 from typing import Dict, Optional
 
+from swarm import Agent, AgentMessage, Response, Swarm
+
 from models import model_list
 from prompts import *
-
-from swarm import Agent, AgentMessage, Response, SwarmRabbitMQ
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Configure minimal logging
-logging.basicConfig(level=logging.WARNING)
+from rabbit import RabbitPublisher
 
 # Initialize SwarmRabbitMQ client
-client = SwarmRabbitMQ()
+client = Swarm()
+rabbit_send = RabbitPublisher("aqueue")
 
 QWEN7 = 2
 LLAMA7 = 0
@@ -95,7 +90,7 @@ def main():
                 metadata={"type": "news_request", "workflow": "start"},
             )
 
-            if handle_agent_response(response):
+            if response:
                 # Director will automatically route messages to other agents
                 # via their routing keys (agent names)
                 logger.info("News workflow initiated")
