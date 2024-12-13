@@ -9,7 +9,7 @@ def callback(message):
 
 
 # Create Rabbit instance and start consuming
-rabbit = RabbitConsumer("aqueue")
-rabbit.consume(callback)
+with RabbitConsumer("aqueue") as rabbit:
+    rabbit.consume(callback)
 
 print(" [*] Waiting for messages. To exit press CTRL+C")

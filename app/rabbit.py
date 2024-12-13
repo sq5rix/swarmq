@@ -64,7 +64,7 @@ class RabbitMQ:
         )
         self.connection = None
         self.channel = None
-        self.connect()
+        # self.connect()
 
     @connection_error_handler
     def connect(self) -> None:
@@ -79,15 +79,6 @@ class RabbitMQ:
         if self.connection and not self.connection.is_closed:
             self.connection.close()
             logger.info("RabbitMQ connection closed")
-
-    def __enter__(self):
-        """Context manager enter"""
-        self.connect()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """Context manager exit"""
-        self.close()
 
 
 class RabbitConsumer(RabbitMQ):
@@ -105,7 +96,6 @@ class RabbitConsumer(RabbitMQ):
         """
         super().__init__(**kwargs)
         self.queue_name = queue_name
-        self.setup_queue(True)
 
     @connection_error_handler
     def setup_queue(self, durable: bool = True) -> None:
@@ -140,6 +130,17 @@ class RabbitConsumer(RabbitMQ):
 
         logger.info(f"Started consuming from queue: {self.queue_name}")
         self.channel.start_consuming()
+
+    def __enter__(self):
+        """Context manager enter"""
+        print("Entering context manager")
+        self.connect()
+        self.setup_queue(True)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit"""
+        self.close()
 
 
 class RabbitPublisher(RabbitMQ):
