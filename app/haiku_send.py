@@ -1,3 +1,4 @@
+import json
 import marshal
 
 from swarm import Agent, Swarm
@@ -11,16 +12,10 @@ client = Swarm()
 english_agent_name = "English_Agent"
 spanish_agent_name = "Spanish_Agent"
 
-spanish_agent = Agent(
-    name=spanish_agent_name,
-    model=MODEL,
-    instructions="You only speak Spanish.",
-)
-
 
 def transfer_to_spanish_agent():
     """Transfer spanish speaking users immediately."""
-    return publish(spanish_agent_name, marshal_object(spanish_agent))
+    return publish(spanish_agent_name, json.dumps(messages))
 
 
 english_agent = Agent(
@@ -33,5 +28,4 @@ english_agent.functions.append(transfer_to_spanish_agent)
 
 messages = [{"role": "user", "content": "Hola. ¿Como estás?"}]
 response = client.run(agent=english_agent, messages=messages)
-print("response: ", response)
-print(marshal_object(spanish_agent))
+print(english_agent)
