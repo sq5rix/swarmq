@@ -19,9 +19,7 @@ MODEL = LLAMA7
 print("\n=== News Director AI System ===")
 print("Type 'quit' to exit\n")
 
-
-def coordinate_news_flow(topic: str) -> Dict:
-    """
+def coordinate_news_flow(topic: str) -> Dict: """
     Coordinate the news gathering and publication process
     """
     return {

@@ -182,3 +182,13 @@ class RabbitPublisher(RabbitMQ):
             exchange="", routing_key=self.queue_name, body=message
         )
         logger.info(f"Published message to queue: {self.queue_name}")
+
+
+def publish(queue, message):
+    q = RabbitPublisher(queue)
+    q.publish(message)
+
+
+def consume(queue, callback):
+    with RabbitConsumer(queue) as q:
+        q.consume(callback)
