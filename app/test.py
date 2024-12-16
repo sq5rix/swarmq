@@ -1,7 +1,8 @@
 import json
 
-from rabbit import publish
 from swarm import Agent, Swarm
+
+from rabbit import publish
 
 MODEL = "llama3.2:latest"
 client = Swarm()
@@ -14,4 +15,4 @@ agent = Agent(
 
 messages = [{"role": "user", "content": "Hi!"}]
 
-publish("Agent", json.dumps(message[0]))
+publish("Agent", json.dumps(messages[0]))
